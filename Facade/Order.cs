@@ -8,6 +8,9 @@ namespace Facade
     {
         public List<Coffee> Drinks { get; set; }
 
-
+        public void addDrink(Coffee coffee)
+        {
+            Drinks.Add(coffee);
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace Facade
         static void Main(string[] args)
         {
             Facade facade = new Facade();
+            facade.orderDrink(new List<int> { 1,2,2,3,4,1});
             facade.Pay();
 
             Console.ReadKey(true);
