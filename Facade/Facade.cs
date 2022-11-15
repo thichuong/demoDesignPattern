@@ -17,7 +17,6 @@ namespace Facade
                 HighlandCoffeeFactory.getInstance().GetCoffee("Milk coffee highland 2",100,50,120),
                 TrungNguyenCoffeeFactory.getInstance().GetCoffee("Coffee Trung Nguyen",200,0,110),
             }
-        };
 
         public void Pay()
         {
