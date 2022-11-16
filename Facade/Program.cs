@@ -8,14 +8,12 @@ namespace Facade
     {
         static void Main(string[] args)
         {
-            Facade facade = new Facade();
+            CafeFacade facade = CafeFacade.getInstance();
+            List<CoffeeName> drinks = new List<CoffeeName> { CoffeeName.TrungNguyenMilkCoffee, CoffeeName.HighlandMilkCoffee };
 
-            facade.orderDrink(new List<int> { 1,2,2,3,4,1});
-            // 1 : Highland coffee
-            // 2 : Highland  milk coffee
-            // 3 : Trung Nguyen coffee
-            // 4 + .....: Trung Nguyen milk coffee
-            facade.Pay();
+            facade.orderDrink(drinks);
+         
+            facade.Pay(PaymentBy.PaymentByCash);
 
             Console.ReadKey(true);
         }

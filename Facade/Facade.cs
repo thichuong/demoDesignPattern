@@ -6,57 +6,71 @@ using AbstractFactory.Factories;
 
 namespace Facade
 {
-    public class Facade
+    public enum PaymentBy
+    {
+        PaymentByPaypal,
+        PaymentByCreditCard,
+        PaymentByEBankingAccount,
+        PaymentByCash
+    }
+    public enum CoffeeName
+    {
+        HighlandCoffee,
+        HighlandMilkCoffee,
+        TrungNguyenCoffee,
+        TrungNguyenMilkCoffee
+    }
+    public class CafeFacade
     {
 
         Calculator calc;
         Order order ;
+        PaymentService paymentService;
 
-        public void orderDrink(List<int> listDrink)
+        public void orderDrink(List<CoffeeName> listDrink)
         {
-            order = new Order
-            {
-                Drinks = new List<Coffee>()                
-            };
-
-            foreach (int drink in listDrink)
-            {
-                switch (drink)
-                {
-                    case 1:
-                        order.addDrink(HighlandCoffeeFactory.getInstance().GetCoffee("Highland coffee", 150, 0, 10000));
-                        break;
-                        break;
-                    case 2:
-                        order.addDrink(HighlandCoffeeFactory.getInstance().GetCoffee("Highland  milk coffee", 150, 50, 15000));
-                        break;
-                    case 3:
-                        order.addDrink(TrungNguyenCoffeeFactory.getInstance().GetCoffee("Trung Nguyen coffee", 180, 0, 12000));
-                        break;
-                    case 4:
-                        order.addDrink(TrungNguyenCoffeeFactory.getInstance().GetCoffee("Trung Nguyen milk coffee", 180, 50, 16000));
-                        break;
-                    default:
-                        order.addDrink(TrungNguyenCoffeeFactory.getInstance().GetCoffee("Trung Nguyen milk coffee", 180, 50, 16000));
-                        break;
-                }
-            }
-
-            Console.WriteLine("You order: ");
-
-            foreach (var item in order.Drinks)
-            {
-                Console.Write("     ");
-                item.Print();
-            }
-            Console.WriteLine();
-
+            order.orderDrink(listDrink);            
         }
-        public void Pay()
+        public void Pay(PaymentBy paymentBy)
         {
-            calc = new Calculator();
             int sum = calc.Sum(order);
             Console.WriteLine("You paid " + sum + " VND");
+            switch (paymentBy)
+            {
+                case PaymentBy.PaymentByPaypal:
+                    paymentService.PaymentByPaypal();
+                    break;                    
+                case PaymentBy.PaymentByCash:
+                    paymentService.PaymentByCash();
+                    break; 
+                case PaymentBy.PaymentByCreditCard:
+                    paymentService.PaymentByCreditCard();
+                    break; 
+                case PaymentBy.PaymentByEBankingAccount:
+                    paymentService.PaymentByEBankingAccount();
+                    break; 
+                default:
+                    paymentService.PaymentByCash();
+                    break;
+            }
+        }
+       
+        private static CafeFacade instance = new CafeFacade();
+
+        private CafeFacade()
+        {
+            calc = new Calculator();
+            order = new Order();
+            paymentService = new PaymentService();
+        }
+
+        public static CafeFacade getInstance()
+        {
+            if (instance == null)
+            {
+                instance = new CafeFacade();
+            }
+            return instance;
         }
     }
 }
